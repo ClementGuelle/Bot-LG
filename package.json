@@ -1,0 +1,29 @@
+{
+	"name": "redearth",
+	"version": "1.0.5",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"start": "node .",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon --exec npm start"
+	},
+	"engines": {
+		"start": "node .",
+		"node": "16.x"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"chalk": "^4.1.2",
+		"crypto": "^1.0.1",
+		"dayjs": "^1.10.7",
+		"dgram": "^1.0.1",
+		"discord.js": "^13.16.0",
+		"dotenv": "^16.0.0",
+		"fs": "^0.0.1-security",
+		"nodemon": "^2.0.20",
+		"ws": "^8.18.0"
+	}
+}
