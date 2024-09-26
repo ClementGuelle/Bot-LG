@@ -55,10 +55,6 @@ module.exports = {
 					btn.runInteraction(client, interaction);
 					break;
 			}
-		} else if (interaction.isSelectMenu()) {
-			const selectMenu = client.selects.get(interaction.customId);
-			if (!selectMenu) return interaction.reply("Ce menu n'existe pas!");
-			selectMenu.runInteraction(client, interaction);
-		}
+		} 
 	},
 };
