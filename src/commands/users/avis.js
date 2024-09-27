@@ -3,7 +3,7 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, CommandInteraction } 
 const menus = [
 	{
 		type: 'SELECT_MENU',
-		customId: 'role-menu-1',
+		customId: 'role-loup-garou',
 		options: [
 			{ label: 'Loup-Garou', value: 'Loup-Garou' },
 			{ label: 'Vilain Petit Loup', value: 'Vilain Petit Loup' },
@@ -20,6 +20,14 @@ const menus = [
 			{ label: 'Loup-Garou Ténébreux', value: 'Loup-Garou Ténébreux' },
 			{ label: 'Loup-garou sanguinaire', value: 'Loup-garou sanguinaire' },
 			{ label: 'Loup-garou Muselant', value: 'Loup-garou Muselant' },
+			{ label: 'Loup-Garou Amnésique', value: 'Loup-Garou Amnésique' },
+			{ label: 'Loup-Garou Blanc', value: 'Loup-Garou Blanc' },
+		]
+	},
+	{
+		type: 'SELECT_MENU',
+		customId: 'role-villageois-1',
+		options: [
 			{ label: 'Voyante', value: 'Voyante' },
 			{ label: 'Montreur d\'Ours', value: 'Montreur d\'Ours' },
 			{ label: 'Renard', value: 'Renard' },
@@ -29,19 +37,19 @@ const menus = [
 			{ label: 'Chaman', value: 'Chaman' },
 			{ label: 'Oracle', value: 'Oracle' },
 			{ label: 'Jumeaux', value: 'Jumeaux' },
-			{ label: 'Analyste', value: 'Analyste' }
-		]
-	},
-	{
-		type: 'SELECT_MENU',
-		customId: 'role-menu-2',
-		options: [
+			{ label: 'Analyste', value: 'Analyste' },
 			{ label: 'Druide', value: 'Druide' },
 			{ label: 'Marchande de Fruits', value: 'Marchande de Fruits' },
 			{ label: 'Vieux Sage', value: 'Vieux Sage' },
 			{ label: 'Occultiste', value: 'Occultiste' },
 			{ label: 'Fossoyeur', value: 'Fossoyeur' },
 			{ label: 'Conteuse', value: 'Conteuse' },
+		]
+	},
+	{
+		type: 'SELECT_MENU',
+		customId: 'role-villageois-2',
+		options: [
 			{ label: 'Espion', value: 'Espion' },
 			{ label: 'Interprète', value: 'Interprète' },
 			{ label: 'Aubergiste', value: 'Aubergiste' },
@@ -58,14 +66,14 @@ const menus = [
 			{ label: 'Idiot du village', value: 'Idiot du village' },
 			{ label: 'Garde', value: 'Garde' },
 			{ label: 'Chasseur', value: 'Chasseur' },
-			{ label: 'Ermite', value: 'Ermite' },
-			{ label: 'Serviteur', value: 'Serviteur' }
 		]
 	},
 	{
 		type: 'SELECT_MENU',
-		customId: 'role-menu-3',
+		customId: 'role-villageois-3',
 		options: [
+			{ label: 'Ermite', value: 'Ermite' },
+			{ label: 'Serviteur', value: 'Serviteur' },
 			{ label: 'Servante dévouée', value: 'Servante dévouée' },
 			{ label: 'Lapin', value: 'Lapin' },
 			{ label: 'Bienfaiteur', value: 'Bienfaiteur' },
@@ -80,22 +88,11 @@ const menus = [
 			{ label: 'Trappeur', value: 'Trappeur' },
 			{ label: 'Cupidon', value: 'Cupidon' },
 			{ label: 'Voleur', value: 'Voleur' },
-			{ label: 'Loup-Garou Amnésique', value: 'Loup-Garou Amnésique' },
-			{ label: 'Chien-Loup', value: 'Chien-Loup' },
-			{ label: 'Escroc', value: 'Escroc' },
-			{ label: 'Romulus ou Remus', value: 'Romulus ou Remus' },
-			{ label: 'Auramancien', value: 'Auramancien' },
-			{ label: 'Tombeur', value: 'Tombeur' },
-			{ label: 'Loup-Garou Blanc', value: 'Loup-Garou Blanc' },
-			{ label: 'Assassin', value: 'Assassin' },
-			{ label: 'Ange', value: 'Ange' },
-			{ label: 'Imitateur', value: 'Imitateur' },
-			{ label: 'Rival', value: 'Rival' }
 		]
 	},
 	{
 		type: 'SELECT_MENU',
-		customId: 'role-menu-4',
+		customId: 'role-neutre',
 		options: [
 			{ label: 'Joueur de flûte', value: 'Joueur de flûte' },
 			{ label: 'Feu follet', value: 'Feu follet' },
@@ -104,22 +101,25 @@ const menus = [
 			{ label: 'Barbare', value: 'Barbare' },
 			{ label: 'Nécromancien', value: 'Nécromancien' },
 			{ label: 'Succube', value: 'Succube' },
-			{ label: 'Tueur en Série', value: 'Tueur en Série' }
+			{ label: 'Tueur en Série', value: 'Tueur en Série' },
 		]
 	}
-];
+]; 
+
 
 const proposition = [
-	{ label: '1', value: 'option1', }, 
-	{ label: '2', value: 'option2', },
-	{ label: '3', value: 'option3', }, 
-	{ label: '4', value: 'option4', }, 
-	{ label: '5', value: 'option5', }, 
-	{ label: '6', value: 'option6', }, 
-	{ label: '7', value: 'option8', }, 
-	{ label: '9', value: 'option9', }, 
-	{ label: '10', value: 'option10', },
+	{ label: '1', value: '1', }, 
+	{ label: '2', value: '2', },
+	{ label: '3', value: '3', }, 
+	{ label: '4', value: '4', }, 
+	{ label: '5', value: '5', }, 
+	{ label: '6', value: '6', }, 
+	{ label: '7', value: '7', }, 
+	{ label: '8', value: '8', }, 
+	{ label: '9', value: '9', },
+	{ label: '10', value: '10', }
 ];
+
 
 
 async function creationMenu(customId, liste)
@@ -128,7 +128,7 @@ async function creationMenu(customId, liste)
 			.addComponents(
 				new MessageSelectMenu()
 					.setCustomId(customId)
-					.setPlaceholder('Rien n\'a été sélectionné')
+					.setPlaceholder(customId)
 					.addOptions(liste)
 			);
 }
@@ -138,16 +138,14 @@ async function listeDeroulante(customId, qst, descriptionQst) {
 
 	let components = [];
 
-	if (customId === 'role-menu')
+	if (customId === "role_menu")
 	{
-		components.push(creationMenu(menus[0].customId, menus[0].options))
-		components.push(creationMenu(menus[1].customId, menus[1].options))
-		components.push(creationMenu(menus[2].customId, menus[2].options))
-		components.push(creationMenu(menus[3].customId, menus[3].options))
+		for ( let i = 0; i <= menus.length-1; i++)
+			components.push(await creationMenu(menus[i].customId, menus[i].options))
 	}
 	else
 	{
-		components.push(creationMenu(customId, proposition))
+		components.push(await creationMenu(customId, proposition))
 	}
 
 	const embed = new MessageEmbed()
@@ -155,14 +153,31 @@ async function listeDeroulante(customId, qst, descriptionQst) {
 		.setDescription(descriptionQst);
 
 
-	return Promise.all(components).then(resolvedComponents => {
-		if (customId === 'role-menu')
-			return { embeds: [embed], components: resolvedComponents };
-		else
-			return { embeds: [embed], components: [resolvedComponents[0]] };
+
+	return { embeds: [embed], components: components };
+
+}
+
+async function lectureReponse(interaction, donneeRecolte, customId)
+{
+	return new Promise((resolve) => {
+		
+		const filter = i => i.user.id === interaction.user.id;
+		const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
+
+		collector.on('collect', async (i) => {
+			if (i.isSelectMenu()) {
+				donneeRecolte.push(i.values[0]);
+				i.deferUpdate();
+				resolve();
+			}
+		});
+
+		collector.on('end', () => {
+			resolve();
+		});
+
 	});
-
-
 }
 
 module.exports = {
@@ -179,37 +194,20 @@ module.exports = {
 		
 		let donneeRecolte = []
 
-
 		// Role joueur
-		const roleMenu = await listeDeroulante('role-menu', 'Quel était ton rôle ?', 'Choisis le rôle que tu as été.');
+		const roleMenu = await listeDeroulante("role_menu", 'Quel était ton rôle ?', 'Choisis le rôle que tu as été.');
 		await interaction.reply(roleMenu);
 
-
+		await lectureReponse(interaction, donneeRecolte, "role_menu");
 
 		// Ambiance
-		//const ambiance = await listeDeroulante("Comment as-tu trouvé l'ambiance de la partie ?", "Note sur 10", interaction);
-		//console.log(ambiance);
+		const ambiance = await listeDeroulante('ambiance', 'Comment as-tu trouvé l\'ambiance de la partie ? ', 'Note sur 10');
+		await interaction.editReply(ambiance)
 
+		await lectureReponse(interaction, donneeRecolte, 'ambiance');
 
-		await new Promise((resolve) => {
-			const collector = interaction.channel.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 60000 });
-
-			collector.on('collect', async (interaction) => {
-				if (interaction.isSelectMenu()) {
-					donneeRecolte.push(interaction.values[0]);
-					interaction.deferUpdate();
-					resolve();
-				}
-			});
-
-			collector.on('end', () => {
-				resolve();
-			});
-
-		});
 
 		console.log(donneeRecolte);
 	}
 
 }
-
