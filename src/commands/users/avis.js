@@ -129,6 +129,7 @@ async function creationMenu(customId, liste)
 				new MessageSelectMenu()
 					.setCustomId(customId)
 					.setPlaceholder(customId)
+					.setDisabled(false)
 					.addOptions(liste)
 			);
 }
@@ -161,14 +162,15 @@ async function listeDeroulante(customId, qst, descriptionQst) {
 async function lectureReponse(interaction, donneeRecolte, customId)
 {
 	return new Promise((resolve) => {
-		
+
 		const filter = i => i.user.id === interaction.user.id;
 		const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
 
 		collector.on('collect', async (i) => {
 			if (i.isSelectMenu()) {
 				donneeRecolte.push(i.values[0]);
-				i.deferUpdate();
+				i.deferReply()
+				collector.stop();
 				resolve();
 			}
 		});
@@ -177,6 +179,15 @@ async function lectureReponse(interaction, donneeRecolte, customId)
 			resolve();
 		});
 
+	});
+}
+
+function desactiveReponse(liste)
+{
+	liste.components.forEach(component => {
+		if (component.type === 'SELECT_MENU') {
+			component.setDisabled(true);
+		}
 	});
 }
 
@@ -197,14 +208,22 @@ module.exports = {
 		// Role joueur
 		const roleMenu = await listeDeroulante("role_menu", 'Quel était ton rôle ?', 'Choisis le rôle que tu as été.');
 		await interaction.reply(roleMenu);
-
 		await lectureReponse(interaction, donneeRecolte, "role_menu");
+		desactiveReponse(roleMenu);
 
-		// Ambiance
-		const ambiance = await listeDeroulante('ambiance', 'Comment as-tu trouvé l\'ambiance de la partie ? ', 'Note sur 10');
-		await interaction.editReply(ambiance)
 
-		await lectureReponse(interaction, donneeRecolte, 'ambiance');
+		// note sur le role
+		const noteRole = await listeDeroulante("note_role", 'Comment as-tu trouvé ton rôle ? ', 'Note sur 10');
+		await interaction.followUp(noteRole)
+		await lectureReponse(interaction, donneeRecolte, "note_role");
+		desactiveReponse(roleMenu);
+
+
+		// note sur l'ambiance
+		const ambiance = await listeDeroulante("ambiance", 'Comment as-tu trouvé l\'ambiance de la partie ? ', 'Note sur 10');
+		await interaction.followUp(ambiance)
+		await lectureReponse(interaction, donneeRecolte, "ambiance");
+		desactiveReponse(roleMenu);
 
 
 		console.log(donneeRecolte);
