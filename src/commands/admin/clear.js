@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 
 const File = ("./web/config/launcher/config-launcher/config.json");
@@ -15,12 +15,12 @@ module.exports = {
         {
             name: 'nombre',
             description: 'Le nombre de message a supprimer',
-            type: 'NUMBER',
+            type: 10,
             required: true,
         }, {
             name: 'cible',
             description: 'La cible du clear',
-            type: 'USER',
+            type: 6,
             required: false,
         }
     ],
@@ -33,8 +33,8 @@ module.exports = {
 
         const Messages = await interaction.channel.messages.fetch();
 
-        const Reponse = new MessageEmbed()
-            .setColor("AQUA")
+		const Reponse = new EmbedBuilder()
+            .setColor([255,0,0])
 
         let filtered = [];
         if (Cible) {

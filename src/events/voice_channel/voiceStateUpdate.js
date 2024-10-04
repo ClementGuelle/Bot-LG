@@ -1,11 +1,11 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
 	name: "voiceStateUpdate",
 	once: false,
 	async execute(client, oldState, newState) {
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 		const userChannel = await client.users.fetch(newState.id)
 
 

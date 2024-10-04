@@ -1,8 +1,7 @@
-const { MessageEmbed, MessageActionRow, MessageSelectMenu, CommandInteraction } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, CommandInteraction } = require("discord.js");
 
 const menus = [
 	{
-		type: 'SELECT_MENU',
 		customId: 'role-loup-garou',
 		options: [
 			{ label: 'Loup-Garou', value: 'Loup-Garou' },
@@ -25,7 +24,6 @@ const menus = [
 		]
 	},
 	{
-		type: 'SELECT_MENU',
 		customId: 'role-villageois-1',
 		options: [
 			{ label: 'Voyante', value: 'Voyante' },
@@ -47,7 +45,6 @@ const menus = [
 		]
 	},
 	{
-		type: 'SELECT_MENU',
 		customId: 'role-villageois-2',
 		options: [
 			{ label: 'Espion', value: 'Espion' },
@@ -69,7 +66,6 @@ const menus = [
 		]
 	},
 	{
-		type: 'SELECT_MENU',
 		customId: 'role-villageois-3',
 		options: [
 			{ label: 'Ermite', value: 'Ermite' },
@@ -91,7 +87,6 @@ const menus = [
 		]
 	},
 	{
-		type: 'SELECT_MENU',
 		customId: 'role-neutre',
 		options: [
 			{ label: 'Joueur de flûte', value: 'Joueur de flûte' },
@@ -129,9 +124,9 @@ const proposition = [
  */
 async function creationMenu(customId, liste)
 {
-	return new MessageActionRow()
+	return new ActionRowBuilder()
 			.addComponents(
-				new MessageSelectMenu()
+				new StringSelectMenuBuilder()
 					.setCustomId(customId)
 					.setPlaceholder(customId)
 					.setDisabled(false)
@@ -160,7 +155,7 @@ async function listeDeroulante(customId, qst, descriptionQst) {
 		components.push(await creationMenu(customId, proposition))
 	}
 
-	const embed = new MessageEmbed()
+	const embed = new EmbedBuilder()
 		.setTitle(qst)
 		.setDescription(descriptionQst);
 
@@ -181,13 +176,13 @@ async function lectureReponse(interaction, donneeRecolte)
 {
 	return new Promise((resolve) => {
 
-		const filter = i => i.user.id === interaction.user.id;
+		const filter = i => i.user.id === interaction.user.id && i.isStringSelectMenu();
 		const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
 
 		collector.on('collect', async (i) => {
-			if (i.isSelectMenu()) {
+			if (i.isStringSelectMenu()) {
 				donneeRecolte.push(i.values[0]);
-				i.deferUpdate()
+				await i.deferUpdate()
 				collector.stop();
 				resolve();
 			}
@@ -199,6 +194,7 @@ async function lectureReponse(interaction, donneeRecolte)
 
 	});
 }
+
 
 
 module.exports = {
@@ -213,13 +209,11 @@ module.exports = {
 
 	async runInteraction(client, interaction) {
 		
-		console.log(interaction)
-
-		if ( interaction.channel.type != 'DM' )
-		{
-			console.log( "le message n'est autorisé que en MP" );
-			return;
-		}
+		// if ( interaction.channel.type != 'DM' )
+		// {
+		// 	console.log( "le message n'est autorisé que en MP" );
+		// 	return;
+		// }
 
 		let donneeRecolte = []
 
@@ -241,6 +235,29 @@ module.exports = {
 		const ambiance = await listeDeroulante("ambiance", 'Comment as-tu trouvé l\'ambiance de la partie ? ', 'Note sur 10');
 		await interaction.followUp(ambiance)
 		await lectureReponse(interaction, donneeRecolte);
+
+
+
+		// if ( donneeRecolte.length === 3 )
+		// {
+		// 	let avisUtilisateur = 
+
+		// 	embed.setAuthor({
+		// 		name: client.user.username,
+		// 		iconURL: client.user.displayAvatarURL(),
+		// 	})
+		// 		.setColor("#21ff81")
+		// 		.setDescription(` ${userChannel}, 
+		// 	Tu as rejoint une partie de Loup-Garou UHC. Je t'invite à respecter scrupuleusement toutes les règles écrites dans le salon dédié à cet effet, sans quoi je crains que tu ne puisses pas participer aux prochaines parties.
+		
+		// 	Durant toute la partie, tu devras rester dans le salon "Village" en mode muet avec ton casque. Un maître du village sera présent pour répondre à tes questions.
+		
+		// 	Tu pourras quitter le vocal à la fin de la partie.`)
+		// 		.setFooter({ text: "Bonne partie ! Amuse-toi bien." });
+
+
+		// 	await interaction.followUp({ embeds: [embed], components: components })
+		// }
 
 
 
