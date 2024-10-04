@@ -121,7 +121,12 @@ const proposition = [
 ];
 
 
-
+/**
+ * Création du menu déroulant 
+ * @param {*} customId id pour le menu déroulant
+ * @param {*} liste liste à utilisé
+ * @returns le menu déroulant créé
+ */
 async function creationMenu(customId, liste)
 {
 	return new MessageActionRow()
@@ -134,12 +139,18 @@ async function creationMenu(customId, liste)
 			);
 }
 
-
+/**
+ * Création de la liste déroulante
+ * @param {*} customId id pour savoir quelle liste utilisé 
+ * @param {*} qst la question posé
+ * @param {*} descriptionQst la description supplémentaire
+ * @returns la liste déroulante
+ */
 async function listeDeroulante(customId, qst, descriptionQst) {
 
 	let components = [];
 
-	if (customId === "role_menu")
+	if (customId === "menu_role")
 	{
 		for ( let i = 0; i <= menus.length-1; i++)
 			components.push(await creationMenu(menus[i].customId, menus[i].options))
@@ -159,7 +170,14 @@ async function listeDeroulante(customId, qst, descriptionQst) {
 
 }
 
-async function lectureReponse(interaction, donneeRecolte, customId)
+
+/**
+ * Lis la réponse à la liste déroulante
+ * @param {*} interaction interaction de la liste
+ * @param {*} donneeRecolte un tableau contenant la liste des précedente réponse
+ * @returns la promise résolu ( utile pour attendre la réponse de l'utilisateur )
+ */
+async function lectureReponse(interaction, donneeRecolte)
 {
 	return new Promise((resolve) => {
 
@@ -169,7 +187,7 @@ async function lectureReponse(interaction, donneeRecolte, customId)
 		collector.on('collect', async (i) => {
 			if (i.isSelectMenu()) {
 				donneeRecolte.push(i.values[0]);
-				i.deferReply()
+				i.deferUpdate()
 				collector.stop();
 				resolve();
 			}
@@ -182,14 +200,6 @@ async function lectureReponse(interaction, donneeRecolte, customId)
 	});
 }
 
-function desactiveReponse(liste)
-{
-	liste.components.forEach(component => {
-		if (component.type === 'SELECT_MENU') {
-			component.setDisabled(true);
-		}
-	});
-}
 
 module.exports = {
 	name: "avis",
@@ -203,27 +213,35 @@ module.exports = {
 
 	async runInteraction(client, interaction) {
 		
+		console.log(interaction)
+
+		if ( interaction.channel.type != 'DM' )
+		{
+			console.log( "le message n'est autorisé que en MP" );
+			return;
+		}
+
 		let donneeRecolte = []
 
 		// Role joueur
-		const roleMenu = await listeDeroulante("role_menu", 'Quel était ton rôle ?', 'Choisis le rôle que tu as été.');
+		const roleMenu = await listeDeroulante("menu_role", 'Quel était ton rôle ?', 'Choisis le rôle que tu as été.');
 		await interaction.reply(roleMenu);
-		await lectureReponse(interaction, donneeRecolte, "role_menu");
-		desactiveReponse(roleMenu);
+		await lectureReponse(interaction, donneeRecolte);
+
 
 
 		// note sur le role
 		const noteRole = await listeDeroulante("note_role", 'Comment as-tu trouvé ton rôle ? ', 'Note sur 10');
 		await interaction.followUp(noteRole)
-		await lectureReponse(interaction, donneeRecolte, "note_role");
-		desactiveReponse(roleMenu);
+		await lectureReponse(interaction, donneeRecolte);
+
 
 
 		// note sur l'ambiance
 		const ambiance = await listeDeroulante("ambiance", 'Comment as-tu trouvé l\'ambiance de la partie ? ', 'Note sur 10');
 		await interaction.followUp(ambiance)
-		await lectureReponse(interaction, donneeRecolte, "ambiance");
-		desactiveReponse(roleMenu);
+		await lectureReponse(interaction, donneeRecolte);
+
 
 
 		console.log(donneeRecolte);
