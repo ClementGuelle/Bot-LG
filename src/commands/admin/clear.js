@@ -34,7 +34,7 @@ module.exports = {
         const Messages = await interaction.channel.messages.fetch();
 
 		const Reponse = new EmbedBuilder()
-            .setColor([255,0,0])
+            .setColor([0,0,0])
 
         let filtered = [];
         if (Cible) {

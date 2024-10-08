@@ -5,11 +5,11 @@ module.exports = {
 	once: false,
 	async execute(client, oldState, newState) {
 
-		const embed = new EmbedBuilder()
+		const embed       = new EmbedBuilder()
 		const userChannel = await client.users.fetch(newState.id)
 
 
-		if (newState.channelId === process.env.VOCAL_CHANNEL )
+		if (newState.channelId === process.env.VOCAL_CHANNEL)
 		{
 			
 			embed.setAuthor({
@@ -35,7 +35,7 @@ module.exports = {
 					name: client.user.username,
 					iconURL: client.user.displayAvatarURL(),
 				})
-				.setColor("#ff0000")
+				.setColor("#ff2142")
 				.setDescription(` ${userChannel}, 
 				Merci d'avoir participé à cette partie ! J'espère que tu t'es bien amusé.
 

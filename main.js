@@ -12,7 +12,13 @@ const client = new Client({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildPresences,
 	],
-	partials: [Partials.MESSAGE, Partials.Channel, Partials.REACTION, Partials.USER, Partials.GUILD],
+	partials: [
+		Partials.Message,
+		Partials.Channel,
+		Partials.Reaction,
+		Partials.User,
+		Partials.GuildMember
+	]
 });
 
 // Configuration des handlers
