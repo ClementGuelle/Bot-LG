@@ -42,7 +42,7 @@ module.exports = async (client) => {
 				`Commande non-chargée: ajouter des exemples (examples) à votre commande ↓\nFichier -> ${cmdFile}`
 			);
 
-		cmd.permissions.forEach((permission) => {
+				cmd.permissions.forEach((permission) => {
 			if (!permissionList.includes(permission)) {
 				return Logger.typo(
 					`Commande non-chargée: erreur de typo sur la permission '${permission}' ↓\nFichier -> ${cmdFile}`

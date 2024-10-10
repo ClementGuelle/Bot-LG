@@ -308,13 +308,18 @@ function satisfaction(avis)
 
 module.exports = 
 {
-	name: "avis",
+
+	data: new SlashCommandBuilder()
+		.setName('avis')
+		.setDescription('Donne ton avis sur la partie'),
+
 	category: "users",
 	permissions: ["SEND_MESSAGES"],
 	ownerOnly: false,
 	usage: "avis",
 	examples: ["avis"],
 	description: "Donne ton avis sur la partie",
+	sendDM: true,
 
 
 	async runInteraction(client, interaction) 
