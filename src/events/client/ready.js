@@ -11,7 +11,7 @@ module.exports = {
 			status: "online",
 		});
 		const devGuild = await client.guilds.cache.get(process.env.GUILD_ID);
-		devGuild.commands.set(client.commands.map((cmd) => cmd));
+		client.commands.set(client.commands.map((cmd) => cmd));
 
 	},
 };

@@ -51,6 +51,7 @@ module.exports = async (client) => {
 		});
 
 		client.commands.set(cmd.name, cmd);
+		
 		Logger.command(`- ${cmd.name}`);
 	});
 };

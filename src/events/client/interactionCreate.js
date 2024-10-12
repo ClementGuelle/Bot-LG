@@ -4,15 +4,7 @@ module.exports = {
 	name: "interactionCreate",
 	once: false,
 	async execute(client, interaction) {
-		// let guildSettings = await client.getGuild(interaction.guild);
 
-		/*if (!guildSettings) {
-		  await client.createGuild(interaction.guild);
-		  guildSettings = await client.getGuild(interaction.guild);
-		  return interaction.reply(
-			"Le bot a mis à jour la base de données pour votre serveur, retapez la commande!"
-		  );
-		}*/
 
 		if (interaction.isCommand()) {
 			const cmd = client.commands.get(interaction.commandName);
@@ -26,14 +18,7 @@ module.exports = {
 					});
 			}
 
-			if (!interaction.member.permissions.has([cmd.permissions]))
-				return interaction.reply({
-					content: `Vous n'avez pas la/les permission(s) requise(s) (\`${cmd.permissions.join(
-						", "
-					)}\`) pour taper cette commande!`,
-					ephemeral: true,
-				});
-
+	
 			cmd.runInteraction(client, interaction);
 		} else if (interaction.isAutocomplete()) {
 			const cmd = client.commands.get(interaction.commandName);

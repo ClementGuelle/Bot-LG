@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, CommandInteraction } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, CommandInteraction, SlashCommandBuilder } = require("discord.js");
 
 const listeRole = [
 	{
@@ -224,7 +224,7 @@ async function listeDeroulante(customId, qst, descriptionQst)
 
 
 
-	return { embeds: [embed], components: components };
+	return { embeds: [embed], components: components, ephemeral: true };
 
 }
 
@@ -282,7 +282,7 @@ async function envoieMessageErreur(client, description, iDutilisateur)
 		.setColor("#ff2142")
 		.setDescription(description)
 
-	userChannel.send({ embeds: [embed] })
+	userChannel.send({ embeds: [embed], ephemeral: true })
 
 	if (utilisateurActuel[iDutilisateur])
 		delete utilisateurActuel[iDutilisateur];
@@ -312,7 +312,8 @@ module.exports =
 	data: new SlashCommandBuilder()
 		.setName('avis')
 		.setDescription('Donne ton avis sur la partie'),
-
+		
+	name:"avis",
 	category: "users",
 	permissions: ["SEND_MESSAGES"],
 	ownerOnly: false,
