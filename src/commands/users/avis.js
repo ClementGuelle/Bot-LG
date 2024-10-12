@@ -223,8 +223,7 @@ async function listeDeroulante(customId, qst, descriptionQst)
 		.setDescription(descriptionQst);
 
 
-
-	return { embeds: [embed], components: components, ephemeral: true };
+	return { embeds: [embed], components: components };
 
 }
 
@@ -272,7 +271,7 @@ async function lectureReponse(interaction, donneeRecolte, customId)
  */
 async function envoieMessageErreur(client, description, iDutilisateur)
 {
-	const userChannel = await client.users.fetch(iDutilisateur)
+	const channelUtilisateur = await client.users.fetch(iDutilisateur)
 	const embed = new EmbedBuilder()
 
 	embed.setAuthor({
@@ -282,7 +281,8 @@ async function envoieMessageErreur(client, description, iDutilisateur)
 		.setColor("#ff2142")
 		.setDescription(description)
 
-	userChannel.send({ embeds: [embed], ephemeral: true })
+	channelUtilisateur.send({ embeds: [embed] })
+	
 
 	if (utilisateurActuel[iDutilisateur])
 		delete utilisateurActuel[iDutilisateur];
@@ -325,18 +325,18 @@ module.exports =
 
 	async runInteraction(client, interaction) 
 	{
-		// if ( interaction.channel.type != 'DM' )
-		// {
-		// 	console.log( "le message n'est autorisé que en MP" );
-		// 	return;
-		// }
-
-		let donneeRecolte = []
 
 		const idUtilisateur = interaction.user.id
-		const channelAvis = await client.channels.cache.get(process.env.BOT_CHANNEL)
-		const embed = new EmbedBuilder()
 
+		// N'exécute pas la commmande si l'utilisateur n'est pas dans ces DM
+		if ( interaction.channel.type !== 1 )
+		{
+			interaction.reply({content : 'Tu ne peux exécuter cette commande qu\'en DM.', ephemeral: true})
+			return;
+		}
+
+		// Tableau de données
+		let donneeRecolte = []
 
 		// si un utilisateur execute déjà la commande cela bloque le fait de refaire la commande
 		if (utilisateurActuel[idUtilisateur])
@@ -404,6 +404,10 @@ module.exports =
 
 		if ( donneeRecolte.length === 5 )
 		{
+			const channelUtilisateur = await client.users.fetch(idUtilisateur)
+			const channelAvis        = await client.channels.cache.get(process.env.AVIS_CHANNEL)
+			const embed              = new EmbedBuilder()
+
 			embed.setAuthor({
 				name: interaction.user.globalName,
 				iconURL: interaction.user.displayAvatarURL(),
@@ -417,7 +421,8 @@ module.exports =
 				.setFooter({ text: "Merci d'avoir partagé ton avis." });
 
 
-			channelAvis.send({ embeds: [embed] });
+				channelAvis.send({ embeds: [embed] });
+				channelUtilisateur.send({ embeds: [embed] });
 		}
 		else
 		{
